@@ -5,16 +5,131 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container">
-    <form action="{{URL_ROOT}}/edit_profile/" method="post" >
-    {% csrf_token %}
-      <center>
-        <table class="table table-bordered">
-          {{ form.as_table }}
-        </table>
-      </center>
-      <br>
-        <button class="btn btn-primary pull-right" type="submit">Save Profile</button>
-    </form>
-  </div>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">
+                        <i class="material-icons" style="vertical-align: middle;">edit</i>
+                        Edit Your Profile
+                    </h3>
+                </div>
+
+                <div class="card-body">
+
+                    {% if form.errors %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="material-icons" style="vertical-align: middle; margin-right: 8px;">error</i>
+                            <strong>Please fix the following errors:</strong>
+                            <ul class="mt-3 mb-0">
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                            <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
+
+                    <form method="post" class="mt-4">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="id_first_name" class="form-label">First Name</label>
+                                    {{ form.first_name }}
+                                    {% if form.first_name.errors %}<small class="text-danger">{{ form.first_name.errors.0 }}</small>{% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="id_last_name" class="form-label">Last Name</label>
+                                    {{ form.last_name }}
+                                    {% if form.last_name.errors %}<small class="text-danger">{{ form.last_name.errors.0 }}</small>{% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="id_email" class="form-label">Email Address</label>
+                            {{ form.email }}
+                            <small class="form-text text-muted">We'll use this to contact you about workshops</small>
+                            {% if form.email.errors %}<small class="text-danger d-block">{{ form.email.errors.0 }}</small>{% endif %}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="form-label">Institute</label>
+                            {{ form.institute }}
+                            <small class="form-text text-muted">Your educational/research institute</small>
+                            {% if form.institute.errors %}<small class="text-danger d-block">{{ form.institute.errors.0 }}</small>{% endif %}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Department</label>
+                                    {{ form.department }}
+                                    {% if form.department.errors %}<small class="text-danger">{{ form.department.errors.0 }}</small>{% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Phone Number</label>
+                                    {{ form.phone_number }}
+                                    {% if form.phone_number.errors %}<small class="text-danger">{{ form.phone_number.errors.0 }}</small>{% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label class="form-label">Location</label>
+                            {{ form.location }}
+                            <small class="form-text text-muted">Select your state or union territory</small>
+                            {% if form.location.errors %}<small class="text-danger d-block">{{ form.location.errors.0 }}</small>{% endif %}
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                            <button class="btn btn-primary btn-lg" type="submit">
+                                <i class="material-icons" style="vertical-align: middle;">save</i>
+                                Save Changes
+                            </button>
+                            <a href="{% url 'workshop_app:view_own_profile' %}" class="btn btn-secondary btn-lg">
+                                <i class="material-icons" style="vertical-align: middle;">cancel</i>
+                                Cancel
+                            </a>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="mt-4 mb-5">
+                <a href="{% url 'workshop_app:view_own_profile' %}" class="text-muted text-decoration-none">
+                    <i class="material-icons" style="vertical-align: middle;">arrow_back</i>
+                    Back to Profile
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control, .form-select {
+        width: 100% !important;
+        display: block !important;
+    }
+
+    label {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+</style>
+
 {% endblock %}

@@ -1,53 +1,107 @@
 {% extends 'workshop_app/base.html' %}
 
+{% load static %}
+
 {% block title %}
-    Login
+    Login - FOSSEE Workshop Booking
 {% endblock %}
 
 {% block content %}
+
+<div class="login-box">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6 col-md-offset-6">
-                <div class="card">
-                    <div class="card-body">
-                        <form class="px-3 py-3" method="post">
-                        {% csrf_token %}
+            <div class="col-lg-5 col-md-6 col-sm-8">
+                <div class="card shadow-lg">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <div style="font-size: 3rem; color: #3498db; margin-bottom: 1rem;">
+                                <i class="material-icons" style="font-size: 4rem;">school</i>
+                            </div>
+                            <h2 class="card-title mb-2">Welcome Back</h2>
+                            <p class="text-muted">FOSSEE Workshop Booking System</p>
+                        </div>
+
                         {% if form.errors %}
-                            {% for field in form %}
-                                {% for error in field.errors %}
-                                    <div class="alert alert-dismissible alert-danger">
-                                        <button type="button" class="close" data-dismiss="alert">
-                                            <i class="fa fa-close"></i>
-                                        </button>
-                                        <strong>{{ error|escape }}</strong>
-                                    </div>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <i class="material-icons" style="vertical-align: middle; margin-right: 8px;">error</i>
+                                <strong>Login Failed!</strong>
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
                                 {% endfor %}
-                            {% endfor %}
-                            {% for error in form.non_field_errors %}
-                                <div class="alert alert-dismissible alert-danger">
-                                    <button type="button" class="close" data-dismiss="alert">
-                                        <i class="fa fa-close"></i>
-                                    </button>
-                                    <strong>{{ error|escape }}</strong>
-                                </div>
-                            {% endfor %}
+                                <button type="button" class="btn-close" data-dismiss="alert"></button>
+                            </div>
                         {% endif %}
-                        <div class="form-group">
-                          <label for="id_username">Username</label>
-                          {{ form.username }}
-                        </div>
-                        <div class="form-group">
-                          <label for="id_password">Password</label>
-                          {{ form.password }}
-                        </div>
-                        <button type="submit" class="btn btn-primary">Sign in</button>
+
+                        <form method="post" class="mt-4">
+                            {% csrf_token %}
+
+                            <div class="form-group mb-3">
+                                <label for="id_username" class="form-label">
+                                    <i class="material-icons" style="vertical-align: middle; font-size: 18px;">person</i>
+                                    Username
+                                </label>
+                                {{ form.username }}
+                                {% if form.username.errors %}
+                                    <small class="text-danger">{{ form.username.errors.0 }}</small>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label for="id_password" class="form-label">
+                                    <i class="material-icons" style="vertical-align: middle; font-size: 18px;">lock</i>
+                                    Password
+                                </label>
+                                {{ form.password }}
+                                {% if form.password.errors %}
+                                    <small class="text-danger">{{ form.password.errors.0 }}</small>
+                                {% endif %}
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">
+                                <i class="material-icons" style="vertical-align: middle;">login</i>
+                                Sign In
+                            </button>
+
                         </form>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'workshop_app:register' %}">New around here? Sign up</a>
-                        <a class="dropdown-item" href="{% url 'password_reset' %}">Forgot password?</a>
+
+                        <hr class="my-4">
+
+                        <div class="text-center">
+                            <p class="mb-2">
+                                Don't have an account?
+                                <a href="{% url 'workshop_app:register' %}" class="fw-bold text-decoration-none">
+                                    Create one now
+                                </a>
+                            </p>
+                            <p class="mb-0">
+                                <a href="{% url 'password_reset' %}" class="text-muted text-decoration-none">
+                                    <i class="material-icons" style="vertical-align: middle; font-size: 16px;">vpn_key</i>
+                                    Forgot your password?
+                                </a>
+                            </p>
+                        </div>
+
                     </div>
-                </div>  
+                </div>
+
+                <div class="text-center mt-4">
+                    <p class="text-muted small">
+                        <i class="material-icons" style="vertical-align: middle; font-size: 16px;">shield</i>
+                        Your data is secure and encrypted
+                    </p>
+                </div>
             </div>
         </div>
     </div>
+</div>
+
+<style>
+    #id_username, #id_password {
+        width: 100% !important;
+    }
+</style>
+
 {% endblock %}

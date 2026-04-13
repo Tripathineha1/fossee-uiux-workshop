@@ -134,6 +134,10 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = 'workshop_app/static/'
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
 LOGIN_URL = '/workshop/login/'
 
 MEDIA_URL = '/data/'

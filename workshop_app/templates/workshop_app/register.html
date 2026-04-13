@@ -1,35 +1,164 @@
 {% extends 'workshop_app/base.html' %}
 
-	{% block title %}
-		Register
-	{% endblock %}
+{% block title %}
+    Register - FOSSEE Workshop Booking
+{% endblock %}
 
 {% block content %}
 
-	<style type="text/css">
-    	label.required::after {
-    	content: "*";
-    	color: red;
-		}
+<div class="register-box">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8 col-sm-10">
+                <div class="card shadow-lg">
+                    <div class="card-header">
+                        <div class="text-center">
+                            <div style="font-size: 2.5rem; color: white; margin-bottom: 0.5rem;">
+                                <i class="material-icons" style="font-size: 3rem;">app_registration</i>
+                            </div>
+                            <h2 class="mb-2" style="color: white;">Create Your Account</h2>
+                            <p class="text-white-50 small">FOSSEE Workshop Booking System</p>
+                        </div>
+                    </div>
 
-		.errorlist {
-      color: red;
+                    <div class="card-body p-4">
+
+                        {% if form.errors %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <i class="material-icons" style="vertical-align: middle;">error</i>
+                                <strong>Registration Error!</strong>
+                                <ul class="mt-2 mb-0">
+                                    {% for field in form %}
+                                        {% for error in field.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                                <button type="button" class="btn-close" data-dismiss="alert"></button>
+                            </div>
+                        {% endif %}
+
+                        <form method="post" class="mt-4">
+                            {% csrf_token %}
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        {{ form.first_name.label_tag }}
+                                        {{ form.first_name }}
+                                        {% if form.first_name.errors %}<small class="text-danger">{{ form.first_name.errors.0 }}</small>{% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        {{ form.last_name.label_tag }}
+                                        {{ form.last_name }}
+                                        {% if form.last_name.errors %}<small class="text-danger">{{ form.last_name.errors.0 }}</small>{% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                {{ form.username.label_tag }}
+                                {{ form.username }}
+                                <small class="form-text text-muted">Letters, digits and @/./+/-/_ only.</small>
+                                {% if form.username.errors %}<small class="text-danger d-block">{{ form.username.errors.0 }}</small>{% endif %}
+                            </div>
+
+                            <div class="form-group mb-3">
+                                {{ form.email.label_tag }}
+                                {{ form.email }}
+                                <small class="form-text text-muted">We'll send a verification email to this address.</small>
+                                {% if form.email.errors %}<small class="text-danger d-block">{{ form.email.errors.0 }}</small>{% endif %}
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        {{ form.password1.label_tag }}
+                                        {{ form.password1 }}
+                                        <small class="form-text text-muted d-block">
+                                            <i class="material-icons" style="font-size: 14px; vertical-align: middle;">info</i>
+                                            Minimum 8 characters, not just numbers
+                                        </small>
+                                        {% if form.password1.errors %}<small class="text-danger">{{ form.password1.errors.0 }}</small>{% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        {{ form.password2.label_tag }}
+                                        {{ form.password2 }}
+                                        {% if form.password2.errors %}<small class="text-danger">{{ form.password2.errors.0 }}</small>{% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                {{ form.institute.label_tag }}
+                                {{ form.institute }}
+                                <small class="form-text text-muted">Your educational institute name</small>
+                                {% if form.institute.errors %}<small class="text-danger d-block">{{ form.institute.errors.0 }}</small>{% endif %}
+                            </div>
+
+                            <div class="form-group mb-3">
+                                {{ form.department.label_tag }}
+                                {{ form.department }}
+                                {% if form.department.errors %}<small class="text-danger">{{ form.department.errors.0 }}</small>{% endif %}
+                            </div>
+
+                            <div class="form-group mb-4">
+                                {{ form.location.label_tag }}
+                                {{ form.location }}
+                                <small class="form-text text-muted">Select your state/territory</small>
+                                {% if form.location.errors %}<small class="text-danger d-block">{{ form.location.errors.0 }}</small>{% endif %}
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">
+                                <i class="material-icons" style="vertical-align: middle;">person_add</i>
+                                Create Account
+                            </button>
+
+                        </form>
+
+                        <p class="text-center text-muted small mt-3 mb-0">
+                            Already have an account?
+                            <a href="{% url 'workshop_app:login' %}" class="fw-bold text-decoration-none">
+                                Sign in here
+                            </a>
+                        </p>
+
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <p class="text-white-50 small">
+                        <i class="material-icons" style="vertical-align: middle; font-size: 16px;">shield</i>
+                        Your information is secure and will not be shared
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control, .form-select {
+        width: 100% !important;
+        display: block !important;
     }
-	</style>
 
-	<div class="container" >
-		<br>
-		<h3>Coordinator Registration Form</h3>
-		<br>
-		<form action="" method="post">
-			{% csrf_token %}
-				<table class="table table-bordered">
-					{{ form.as_table }}
-				</table>
+    label {
+        margin-bottom: 0.5rem !important;
+    }
 
-				<button class="btn btn-primary" type="submit">Register</button>
-		</form><br>
-		<!-- Activate when Instructor registeration starts -->
-		<br>
-	</div>
+    .register-box {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+    }
+</style>
+
 {% endblock %}

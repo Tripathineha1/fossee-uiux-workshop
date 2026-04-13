@@ -1,76 +1,148 @@
 {% extends 'workshop_app/base.html' %}
 
 {% block title %}
-    Awaiting activation
+    Email Verification - FOSSEE Workshop Booking
 {% endblock %}
 
 {% block header %}
-    <nav class="navbar navbar-default navbar-dark bg-dark">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand text-white" href="/">
-                    FOSSEE Workshops
-                </a>
-            </div>
-            <ul class="nav navbar-nav navbar-right">
-                {% if request.user.profile.is_email_verified %}
-                    <li><a href="{% url 'workshop_app:view_profile' %}"><span class="glyphicon glyphicon-user"></span>
-                        Profile</a></li>
-
-                    <li><a href="{% url 'workshop_app:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
-                    </li>
-                {% endif %}
-            </ul>
+    <nav class="navbar navbar-dark navbar-expand-lg fixed-top">
+        <div class="container-fluid px-3">
+            <a class="navbar-brand" href="/">
+                <i class="material-icons" style="vertical-align: middle; margin-right: 8px;">school</i>
+                FOSSEE Workshops
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
         </div>
     </nav>
 {% endblock %}
 
-{% block extra %}
-
-{% endblock %}
-
 {% block content %}
-    {% if status == '2' %}
-        <div class="container">
-            <div class="jumbotron">
-                <p> Your email is already verified, Click
-                    <a href="{% url 'workshop_app:index' %}">here</a>
-                </p>
-            </div>
-        </div>
-    {% elif status == '1' %}
-        <script type="text/javascript">
-            window.setTimeout(function () {
-                location.href = "{% url 'workshop_app:register' %}"
-            }, 3000);
-        </script>
-        <div class="container">
-            <div class="jumbotron">
-                <p> Your activation has expired please register again</p>
-            </div>
-        </div>
-    {% elif status == '0' %}
-        <div class="container">
-            <div class="jumbotron">
-                <p> Your account has been activated. Click
-                    <a href="{% url 'workshop_app:index' %}">here</a>
-                </p>
-            </div>
-        </div>
-    {% else %}
-        <script type="text/javascript">
-            window.setTimeout(function () {
-                location.href = "{% url 'workshop_app:logout' %}"
-            }, 5000);
-        </script>
 
-        <div class="container">
-            <div class="jumbotron">
-                <h1>Activation Awaiting</h1>
-                <p>The Activation Link has been sent to your email. The link expires in <strong>24hours</strong> from
-                    the date of registration. You will be logged out automatically
-                </p>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-md-9">
+
+            {% if status == '2' %}
+            <!-- Already Verified -->
+            <div class="card border-0 shadow-lg">
+                <div class="card-body p-5 text-center">
+                    <div style="font-size: 3rem; color: #27ae60; margin-bottom: 1.5rem;">
+                        <i class="material-icons" style="font-size: 4rem;">check_circle</i>
+                    </div>
+                    
+                    <h2 class="mb-3">Email Already Verified</h2>
+                    <p class="text-muted fs-5 mb-4">
+                        Your email address is already verified. You can proceed to your dashboard.
+                    </p>
+                    
+                    <a href="{% url 'workshop_app:index' %}" class="btn btn-primary btn-lg">
+                        <i class="material-icons" style="vertical-align: middle;">dashboard</i>
+                        Go to Dashboard
+                    </a>
+                </div>
             </div>
+
+            {% elif status == '1' %}
+            <!-- Activation Expired -->
+            <script type="text/javascript">
+                window.setTimeout(function () {
+                    location.href = "{% url 'workshop_app:register' %}"
+                }, 5000);
+            </script>
+            <div class="card border-0 shadow-lg">
+                <div class="card-body p-5 text-center">
+                    <div style="font-size: 3rem; color: #e74c3c; margin-bottom: 1.5rem;">
+                        <i class="material-icons" style="font-size: 4rem;">schedule</i>
+                    </div>
+                    
+                    <h2 class="mb-3">Activation Link Expired</h2>
+                    <p class="text-muted fs-5 mb-2">
+                        Your activation link has expired. Please register again to create a new account.
+                    </p>
+                    <p class="text-muted small">
+                        <i class="material-icons" style="vertical-align: middle; font-size: 16px;">refresh</i>
+                        Redirecting to registration in 5 seconds...
+                    </p>
+                    
+                    <a href="{% url 'workshop_app:register' %}" class="btn btn-primary btn-lg mt-3">
+                        <i class="material-icons" style="vertical-align: middle;">app_registration</i>
+                        Register Again
+                    </a>
+                </div>
+            </div>
+
+            {% elif status == '0' %}
+            <!-- Successfully Activated -->
+            <div class="card border-0 shadow-lg">
+                <div class="card-body p-5 text-center">
+                    <div style="font-size: 3rem; color: #27ae60; margin-bottom: 1.5rem;">
+                        <i class="material-icons" style="font-size: 4rem;">verified</i>
+                    </div>
+                    
+                    <h2 class="mb-3">Email Verified Successfully!</h2>
+                    <p class="text-muted fs-5 mb-4">
+                        Your account has been activated and is ready to use.
+                    </p>
+                    
+                    <a href="{% url 'workshop_app:index' %}" class="btn btn-primary btn-lg">
+                        <i class="material-icons" style="vertical-align: middle;">check_circle</i>
+                        Go to Dashboard
+                    </a>
+                </div>
+            </div>
+
+            {% else %}
+            <!-- Awaiting Verification -->
+            <script type="text/javascript">
+                window.setTimeout(function () {
+                    location.href = "{% url 'workshop_app:logout' %}"
+                }, 30000);
+            </script>
+            <div class="card border-0 shadow-lg">
+                <div class="card-header">
+                    <h3 class="mb-0">
+                        <i class="material-icons" style="vertical-align: middle;">mail</i>
+                        Email Verification Required
+                    </h3>
+                </div>
+                <div class="card-body p-5">
+                    <div class="alert alert-info mb-4">
+                        <i class="material-icons" style="vertical-align: middle; margin-right: 8px;">info</i>
+                        <strong>Important!</strong> We've sent an activation link to your registered email address.
+                    </div>
+
+                    <p class="text-muted mb-3">
+                        <i class="material-icons" style="vertical-align: middle;">schedule</i>
+                        <strong>The link expires in 24 hours</strong> from the date of registration.
+                    </p>
+
+                    <div class="bg-light p-4 rounded mb-4">
+                        <h6 class="mb-3">What to do next:</h6>
+                        <ol>
+                            <li>Check your email inbox (and spam folder)</li>
+                            <li>Click the verification link in the email</li>
+                            <li>Your account will be activated immediately</li>
+                        </ol>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <i class="material-icons" style="vertical-align: middle; margin-right: 8px;">warning</i>
+                        <strong>Note:</strong> You will be logged out automatically in 30 seconds.
+                    </div>
+
+                    <p class="text-muted small mt-4 text-center mb-0">
+                        If you didn't receive the email, please check your spam folder or
+                        <a href="{% url 'workshop_app:register' %}" class="fw-bold">register again</a>.
+                    </p>
+                </div>
+            </div>
+            {% endif %}
+
         </div>
-    {% endif %}
+    </div>
+</div>
+
 {% endblock %}

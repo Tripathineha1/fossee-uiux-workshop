@@ -1,18 +1,52 @@
 {% extends 'workshop_app/base.html' %}
 
-	{% block title %}
-		Logged out
-	{% endblock %}
+{% block title %}
+    Logged Out - FOSSEE Workshop Booking
+{% endblock %}
 
+{% block content %}
 
-	{% block content %}
-		<div class="container" align="center">
-			<br>
-			<h3>You have logged out successfully.</h3>
-			<h4>If you want to login again please
-				<a href="/">click here</a>
-			</h4>
-			<br>
-		</div>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 text-center">
+            
+            <div class="card border-0 shadow-lg">
+                <div class="card-body p-5">
+                    <div style="font-size: 3rem; color: #27ae60; margin-bottom: 1.5rem;">
+                        <i class="material-icons" style="font-size: 4rem;">logout</i>
+                    </div>
+                    
+                    <h2 class="card-title mb-3">Successfully Logged Out</h2>
+                    <p class="text-muted fs-5">
+                        You have been logged out of your account successfully.
+                    </p>
+                    
+                    <hr class="my-4">
+                    
+                    <p class="lead mb-4">
+                        What's next?
+                    </p>
+                    
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'workshop_app:login' %}" class="btn btn-primary btn-lg mb-2">
+                            <i class="material-icons" style="vertical-align: middle;">login</i>
+                            Sign in Again
+                        </a>
+                        <a href="/" class="btn btn-outline-secondary btn-lg">
+                            <i class="material-icons" style="vertical-align: middle;">home</i>
+                            Go to Home
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-	{% endblock %}
+            <p class="text-muted small mt-4">
+                <i class="material-icons" style="vertical-align: middle;">info</i>
+                Your session has been securely ended
+            </p>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
