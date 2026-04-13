@@ -1,3 +1,6 @@
+# fossee-uiux-workshop
+UI/UX enhancement of FOSSEE workshop booking system using Django and modern frontend practices.
+
 # **Workshop Booking**
 
 > This website is for coordinators to book a workshop(s), they can book a workshop based on instructors posts or can propose a workshop date based on their convenience.
